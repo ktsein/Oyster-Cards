@@ -2,7 +2,9 @@ class Oystercard
 
   attr_accessor :balance, :in_journey
 
-  MONEY_LIMIT = 90
+  MONEY_MAX_LIMIT = 90
+  MONEY_MIN_LIMIT = 1
+
 
 
   def initialize
@@ -11,7 +13,7 @@ class Oystercard
   end
 
   def top_up(money)
-    fail "Card limit is #{Oystercard::MONEY_LIMIT}." if money + @balance > Oystercard::MONEY_LIMIT
+    fail "Card limit is #{Oystercard::MONEY_MAX_LIMIT}." if money + @balance > Oystercard::MONEY_MAX_LIMIT
     @balance += money
   end
 
@@ -20,11 +22,11 @@ class Oystercard
   end
 
   def touch_in
+    fail "£1 minimum required." if @balance <= Oystercard::MONEY_MIN_LIMIT
     @in_journey = true
   end
 
   def touch_out
     @in_journey = false
   end
-
 end

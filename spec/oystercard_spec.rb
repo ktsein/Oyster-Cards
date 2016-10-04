@@ -12,13 +12,16 @@ require 'oystercard'
     end
 
     it 'top_up adds money' do
-      oystercard.top_up(10)
-      expect(oystercard.balance).to eq 10
+      subject.top_up(10)
+      expect(subject.balance).to eq 10
     end
 
     it 'limits top up value to £90' do
-      oystercard = Oystercard.new
-      expect{oystercard.top_up(91)}.to raise_error "Card limit is #{Oystercard::MONEY_LIMIT}."
+      expect{oystercard.top_up(91)}.to raise_error "Card limit is #{Oystercard::MONEY_MAX_LIMIT}."
+    end
+
+    it 'minimum required value is £1 to use the card' do
+      expect{oystercard.touch_in}.to raise_error "£1 minimum required."
     end
 
     it 'deducts money' do
