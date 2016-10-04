@@ -53,5 +53,10 @@ require 'oystercard'
       expect(oystercard.in_journey).to be false
     end
 
+    it 'touch out and charge money for the journey' do
+      oystercard.touch_in
+      expect{oystercard.touch_out}.to change{oystercard.balance}.by(-2)
+    end
+
 
 end
